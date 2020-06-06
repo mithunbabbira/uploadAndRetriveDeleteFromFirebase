@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                openImagesActivity();
 
             }
         });
@@ -135,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                                 public void run() {
                                     mProgressBar.setProgress(0);
                                 }
-                            },500);
+                            },2000);
 
                             Toast.makeText(MainActivity.this,"upload successful ",Toast.LENGTH_LONG).show();
                             Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),taskSnapshot.getUploadSessionUri().toString());
@@ -158,7 +160,10 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                             double progress = (100.0 *taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
+
                             mProgressBar.setProgress((int)progress);
+
+
 
                         }
                     });
@@ -170,5 +175,9 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this,"no file seletecd",Toast.LENGTH_SHORT).show();
         }
 
+    }
+    private void openImagesActivity() {
+        Intent intent = new Intent(this,ImageActivity.class);
+        startActivity(intent);
     }
 }
