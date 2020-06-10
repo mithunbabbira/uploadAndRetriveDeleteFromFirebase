@@ -1,5 +1,7 @@
 package com.example.uploadandretrivefromfirebase;
 
+import android.util.Log;
+
 public class Upload {
     private String mName;
     private String mImageUrl;
@@ -9,7 +11,8 @@ public class Upload {
         //empty constructor needed
 
     }
-    public Upload(String name, String ImageUrl){
+    public Upload( String name, String ImageUrl){
+        Log.d("test","after passing  "+name.trim());
         if (name.trim().equals("")){
             name = "no name";
         }
@@ -17,11 +20,12 @@ public class Upload {
         mImageUrl = ImageUrl;
     }
 
-    public String geName() {
+    public String getName() {
         return mName;
     }
 
     public void setName(String name) {
+        Log.d("test","setName "+name.trim());
         this.mName = name;
     }
 

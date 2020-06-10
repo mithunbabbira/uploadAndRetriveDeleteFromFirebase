@@ -2,6 +2,7 @@ package com.example.uploadandretrivefromfirebase;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +40,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         Upload uploadCurrent = mUpload.get(position);
-        holder.textViewName.setText(uploadCurrent.geName());
+        holder.textViewName.setText(uploadCurrent.getName());
         Picasso.with(mContext).load(uploadCurrent.getImageUrl()).fit().centerCrop().into(holder.imageView);
+        Log.d("test","adapeter "+uploadCurrent.getImageUrl());
 
     }
 

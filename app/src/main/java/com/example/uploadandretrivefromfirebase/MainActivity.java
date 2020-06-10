@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
             Picasso.with(this).load(mImageUri).into(mImageView);
             // or we can use mImageView.setImageURI(mImageUri);
+            //displaying the image (before uploading )
         }
     }
 
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         if (mImageUri != null){
 
             // Here we are naming the file with system time (to make sure that it wont over ride with same name)
-            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()+"."+getFileExtension(mImageUri));
+            final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()+"."+getFileExtension(mImageUri));
 
             // we can change the loction here too
             //StorageReference fileReference = mStorageRef.child("uploads/"+System.currentTimeMillis()+"."+getFileExtension(mImageUri));
@@ -139,12 +140,20 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             },2000);
 
+
+
                             Toast.makeText(MainActivity.this,"upload successful ",Toast.LENGTH_LONG).show();
-                            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),taskSnapshot.getUploadSessionUri().toString());
+                            Log.d("test","before passing"+mEditTextFileName.getText().toString());
+                            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    String url = uri.toString();
+                                    Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),url);
+                                    String uploadID = mDatabaseRef.push().getKey();
+                                    mDatabaseRef.child(uploadID).setValue(upload);
+                                }
+                            });
 
-
-                            String uploadID = mDatabaseRef.push().getKey();
-                            mDatabaseRef.child(uploadID).setValue(upload);
 
 
                         }
